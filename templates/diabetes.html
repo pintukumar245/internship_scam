@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Diabetes Prediction</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+                color: #fff;
+                min-height: 100vh;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .container {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 15px;
+                padding: 30px;
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+                width: 90%;
+                max-width: 500px;
+            }
+            h2 {
+                text-align: center;
+                margin-top: 0;
+            }
+            form {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .full-width {
+                grid-column: span 2;
+            }
+            input[type="text"] {
+                width: 100%;
+                padding: 8px;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
+                box-sizing: border-box;
+            }
+            input[type="submit"] {
+                background-color: #4ca2cd;
+                color: white;
+                border: none;
+                padding: 12px;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background 0.3s;
+                margin-top: 15px;
+            }
+            input[type="submit"]:hover {
+                background-color: #357ca5;
+            }
+            h3 {
+                text-align: center;
+                background: rgba(0, 128, 0, 0.2);
+                padding: 10px;
+                border-radius: 5px;
+                margin-top: 20px;
+            }
+            label {
+                font-size: 12px;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Diabetes Prediction Form</h2>
+            <form action="/predict" method="post">
+                <label>Female (0 or 1): <input type="text" name="female" value="1"></label>
+                <label>Male (0 or 1): <input type="text" name="male" value="0"></label>
+                <label>Other Gender: <input type="text" name="other" value="0"></label>
+                <label>Age: <input type="text" name="age" value="45"></label>
+                <label>African American: <input type="text" name="race_AfricanAmerican" value="0"></label>
+                <label>Asian: <input type="text" name="race_Asian" value="0"></label>
+                <label>Caucasian: <input type="text" name="race_Caucasian" value="1"></label>
+                <label>Hispanic: <input type="text" name="race_Hispanic" value="0"></label>
+                <label>Other Race: <input type="text" name="race_Other" value="0"></label>
+                <label>Hypertension (0/1): <input type="text" name="hypertension" value="0"></label>
+                <label>Heart Disease (0/1): <input type="text" name="heart_disease" value="0"></label>
+                <label>No Info (0/1): <input type="text" name="no_info" value="0"></label>
+                <label>Current Smoker: <input type="text" name="current" value="0"></label>
+                <label>Ever Smoked: <input type="text" name="ever" value="0"></label>
+                <label>Former Smoker: <input type="text" name="former" value="0"></label>
+                <label>Never Smoked: <input type="text" name="never" value="1"></label>
+                <label>Not Current Smoker: <input type="text" name="not_current" value="0"></label>
+                <label>BMI: <input type="text" name="bmi" value="25.5"></label>
+                <label>HbA1c Level: <input type="text" name="hbA1c_level" value="5.7"></label>
+                <label>Blood Glucose Level: <input type="text" name="blood_glucose_level" value="100"></label>
+
+                <input type="submit" value="Predict" class="full-width">
+            </form>
+            {% if prediction %}
+            <h3>Prediction Result: {{ prediction }}</h3>
+            {% endif %}
+        </div>
+    </body>
+</html>

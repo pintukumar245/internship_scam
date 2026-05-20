@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company.name }} - Trust Audit & Scam Scan</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div id="loading-message" class="loading-text">Analyzing company digital footprint...</div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-container">
+                <i class="fa-solid fa-shield-halved logo-icon"></i>
+                <div class="logo-text">Scam<span>Shield</span></div>
+            </div>
+            <nav class="nav-links">
+                <a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="/diabetes" class="nav-link"><i class="fa-solid fa-stethoscope"></i> Diabetes Tool</a>
+                <a href="/reports_list" class="nav-link"><i class="fa-solid fa-list-check"></i> Public Reports</a>
+            </nav>
+        </header>
+
+        <!-- Back Button -->
+        <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Scan Centre</a>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            
+            <!-- LEFT COLUMN: Profile & Scam Meter -->
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                
+                <!-- Company Profile Card -->
+                <div class="glass-card company-profile-card">
+                    <div class="company-logo-container">
+                        {% if company.logo_url %}
+                        <img src="{{ company.logo_url }}" class="company-logo" alt="{{ company.name }} logo" onerror="this.style.display='none'; document.getElementById('letter-logo').style.display='flex';">
+                        {% endif %}
+                        <div id="letter-logo" class="letter-logo" {% if company.logo_url %}style="display:none;"{% endif %}>
+                            {{ company.name[0] | upper }}
+                        </div>
+                    </div>
+                    
+                    <h2 class="company-name-title">{{ company.name }}</h2>
+                    {% if company.website %}
+                    <a href="{{ company.website }}" target="_blank" class="company-domain-link">
+                        <i class="fa-solid fa-globe"></i> {{ company.website | replace("https://", "") | replace("http://", "") | replace("www.", "") | truncate(35) }}
+                    </a>
+                    {% else %}
+                    <span style="color: var(--text-secondary); font-size: 0.85rem; font-style: italic;">Official Website Not Detected</span>
+                    {% endif %}
+
+                    <div class="company-meta-grid">
+                        <div class="meta-item">
+                            <span class="meta-label">Team Size (Employee Size)</span>
+                            <span class="meta-val"><i class="fa-solid fa-users"></i> {{ company.employee_size }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Company Profile Overview</span>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px; text-align: justify; line-height: 1.4;">
+                                {{ company.description | truncate(250) }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scam Meter Card -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-gauge-high"></i> Scam Probability Meter</h3>
+                    <div class="scam-meter-container">
+                        <svg class="radial-progress-svg" viewBox="0 0 160 160">
+                            <circle class="radial-bg" cx="80" cy="80" r="70"></circle>
+                            <!-- Circle circumference is 2 * PI * r = 440 -->
+                            <circle id="radial-bar" class="radial-bar" cx="80" cy="80" r="70" stroke-dasharray="440" stroke-dashoffset="440"></circle>
+                        </svg>
+                        
+                        <div class="score-text-overlay">
+                            <span id="score-value" class="score-percentage" data-score="{{ company.scam_score }}">{{ company.scam_score }}%</span>
+                            <span class="score-lbl">Risk Index</span>
+                        </div>
+                    </div>
+                    <div id="trust-status-text" class="trust-status-text">CALCULATING...</div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: Web News, Risk Audit, Reviews -->
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                
+                <!-- Trust Vector Progress Bars -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-chart-bar"></i> Trust Audit Breakdown</h3>
+                    <div class="breakdown-section">
+                        <div class="progress-group">
+                            <div class="progress-lbl-container">
+                                <span>Money Demand Risk (Fees, Training, Security)</span>
+                                <span>{{ company.risk_breakdown.fee_demand }}%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill red" style="width: {{ company.risk_breakdown.fee_demand }}%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-group">
+                            <div class="progress-lbl-container">
+                                <span>Certificate Legitimacy Risk</span>
+                                <span>{{ company.risk_breakdown.certificate_validity }}%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill orange" style="width: {{ company.risk_breakdown.certificate_validity }}%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-group">
+                            <div class="progress-lbl-container">
+                                <span>Online Anonymity Risk (Weak digital footprint)</span>
+                                <span>{{ company.risk_breakdown.online_presence }}%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill blue" style="width: {{ company.risk_breakdown.online_presence }}%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-group">
+                            <div class="progress-lbl-container">
+                                <span>Negative Sentiment (Scam reviews online)</span>
+                                <span>{{ company.risk_breakdown.review_sentiment }}%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill red" style="width: {{ company.risk_breakdown.review_sentiment }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scam Details Alert Warnings -->
+                    <div class="scam-details-list">
+                        {% for detail in company.scam_details %}
+                        <div class="detail-alert {% if 'No active scam indicators' in detail %}safe-note{% endif %}">
+                            <i class="fa-solid {% if 'No active scam indicators' in detail %}fa-circle-check{% else %}fa-circle-exclamation{% endif %} detail-alert-icon"></i>
+                            <div>{{ detail }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Interactive Student Self-Audit Checklist -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-list-check" style="color: var(--neon-blue);"></i> Live Self-Audit Risk Calculator</h3>
+                    <p class="checklist-desc">Did you interact with this company? Check any of the vectors below to recalculate the scam index score dynamically in real-time:</p>
+                    
+                    <div class="checklist-container">
+                        <label class="checklist-item">
+                            <input type="checkbox" data-weight="35">
+                            <div class="checklist-item-text">
+                                **Paisa Ki Demand** / Registration Fee
+                                <span>They asked for registration charges, exam fees, laptop security deposits, or training portal maintenance fees.</span>
+                            </div>
+                        </label>
+                        
+                        <label class="checklist-item">
+                            <input type="checkbox" data-weight="20">
+                            <div class="checklist-item-text">
+                                **Unverified Contact Details** / Gmail or WhatsApp Hiring
+                                <span>They are coordinating strictly via WhatsApp/Telegram, or using free Gmail domains (e.g. hr.company@gmail.com).</span>
+                            </div>
+                        </label>
+
+                        <label class="checklist-item">
+                            <input type="checkbox" data-weight="15">
+                            <div class="checklist-item-text">
+                                **Suspiciously High Stipend** (Too Good to Be True)
+                                <span>Offering 15,000 - 30,000 INR for extremely basic copy-paste, form filling, or data entry work.</span>
+                            </div>
+                        </label>
+
+                        <label class="checklist-item">
+                            <input type="checkbox" data-weight="20">
+                            <div class="checklist-item-text">
+                                **Recruitment Chain Trap**
+                                <span>They asked you to refer 5 other students or post reviews to qualify for selection or get your stipend.</span>
+                            </div>
+                        </label>
+
+                        <label class="checklist-item">
+                            <input type="checkbox" data-weight="10">
+                            <div class="checklist-item-text">
+                                **Grammatical errors in Offer Letter**
+                                <span>The internship contract or offer letter has typos, look unprofessional, or lacks verified office addresses.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Web Scrape Snippets ("Kya chal raha hai") -->
+                <div class="glass-card">
+                    <h3 class="results-section-title"><i class="fa-solid fa-magnifying-glass" style="color: var(--primary);"></i> Web Activity & Search Hits ("Kya chal raha hai")</h3>
+                    {% if company.snippets %}
+                        {% for snippet in company.snippets %}
+                        <div class="snippet-card">
+                            <a href="{{ snippet.link }}" target="_blank" class="snippet-title-link">{{ snippet.title }}</a>
+                            <p class="snippet-text">{{ snippet.snippet }}</p>
+                            <div class="snippet-source"><i class="fa-solid fa-link"></i> {{ snippet.link | truncate(70) }}</div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                            <i class="fa-solid fa-circle-nodes" style="font-size: 2.5rem; margin-bottom: 15px; color: var(--border-card);"></i>
+                            <p>No active live index hits detected. Check self-audit checklist to run manual analysis.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Crowdsourced Reviews and Submission Form -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-comments"></i> Student Review Feed</h3>
+                    <div class="reviews-section">
+                        {% if reviews %}
+                            {% for r in reviews %}
+                            <div class="review-card {% if r.rating <= 2 %}negative{% endif %}">
+                                <div class="review-header">
+                                    <span class="review-author"><i class="fa-solid fa-user-graduate"></i> {{ r.author }}</span>
+                                    <span>{{ r.date }}</span>
+                                </div>
+                                <div class="review-body">
+                                    <div style="color: var(--warning); margin-bottom: 5px;">
+                                        {% for i in range(r.rating) %}<i class="fa-solid fa-star"></i>{% endfor %}
+                                        {% for i in range(5 - r.rating) %}<i class="fa-regular fa-star"></i>{% endfor %}
+                                    </div>
+                                    <p>{{ r.comment }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p style="color: var(--text-secondary); text-align: center; padding: 20px 0;">No student reviews filed yet. Be the first to help others!</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Add a review form -->
+                    <div class="add-review-form">
+                        <h4 style="margin-bottom: 15px;"><i class="fa-solid fa-pen-to-square"></i> Leave an Experience Review</h4>
+                        <form action="/add_review" method="POST">
+                            <input type="hidden" name="company_name" value="{{ company.name }}">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label class="form-label">Your Name (Leave blank for Anonymous)</label>
+                                    <input type="text" name="author" class="form-control" placeholder="E.g. Shivam (or Anonymous)">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Trust Rating</label>
+                                    <select name="rating" class="form-control" style="background: var(--bg-dark); color: white;">
+                                        <option value="5">⭐⭐⭐⭐⭐ (Highly Safe / Real Stipend)</option>
+                                        <option value="4">⭐⭐⭐⭐ (Good learning, minor delay)</option>
+                                        <option value="3">⭐⭐⭐ (Average, verify details)</option>
+                                        <option value="2">⭐⭐ (Suspicious/Low learning)</option>
+                                        <option value="1">⭐ (Critical Scam / Demanded Money)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Review Comment (Kya kaam karwaya? Payout mila?)</label>
+                                <textarea name="comment" rows="3" class="form-control" placeholder="E.g. It is a genuine company, they gave proper training and certificates without asking for any charges. Stipend is paid on time..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-submit">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Student ScamShield. Protecting Indian students from fake internship traps.</p>
+        </footer>
+    </div>
+
+    <script src="../static/js/app.js"></script>
+</body>
+</html>

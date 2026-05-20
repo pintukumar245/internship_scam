@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Scam Shield & Company Analyzer</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div id="loading-message" class="loading-text">Analyzing company digital footprint...</div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-container">
+                <i class="fa-solid fa-shield-halved logo-icon"></i>
+                <div class="logo-text">Scam<span>Shield</span></div>
+            </div>
+            <nav class="nav-links">
+                <a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="/diabetes" class="nav-link"><i class="fa-solid fa-stethoscope"></i> Diabetes Tool</a>
+                <a href="/reports_list" class="nav-link"><i class="fa-solid fa-list-check"></i> Public Reports</a>
+                <a href="#report-scam-form" class="btn-report"><i class="fa-solid fa-circle-exclamation"></i> Report a Scam</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">Internship Scam <span>Exposed!</span></h1>
+            <p class="hero-subtitle">Check corporate employee size, web updates, and calculate scam probability score before paying registration fee or joining.</p>
+            
+            <div class="search-container">
+                <form id="search-form" action="/analyze" method="POST">
+                    <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
+                    <input type="text" name="company_name" class="search-input" placeholder="Enter company name (e.g. Maxgen Technologies, CleverTap)..." required autocomplete="off">
+                    <button type="submit" class="search-btn">Scan Company</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Home Grid with Scam Alerts and Safe Companies -->
+        <div class="home-grid">
+            <!-- Flagged/Needs Review Section -->
+            <div class="glass-card">
+                <h3 class="card-title" style="color: var(--danger);">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Flagged Alerts (Scam Warning)
+                </h3>
+                <div class="company-list">
+                    <div class="company-item scam">
+                        <div class="item-info">
+                            <span class="item-name">Maxgen Technologies</span>
+                            <span class="item-sub">Multiple reviews reporting registration/training fee demand</span>
+                        </div>
+                        <span class="badge badge-scam">Critical</span>
+                    </div>
+                    <div class="company-item scam">
+                        <div class="item-info">
+                            <span class="item-name">Skill Bharat Association</span>
+                            <span class="item-sub">Unpaid certificates & vague training offers</span>
+                        </div>
+                        <span class="badge badge-scam">Needs Review</span>
+                    </div>
+                    <div class="company-item scam">
+                        <div class="item-info">
+                            <span class="item-name">Career-Domain</span>
+                            <span class="item-sub">Demand for security deposits during onboarding</span>
+                        </div>
+                        <span class="badge badge-scam">Needs Review</span>
+                    </div>
+                    <div class="company-item scam">
+                        <div class="item-info">
+                            <span class="item-name">Orange Technologies</span>
+                            <span class="item-sub">Extremely high stipend flags with no domain info</span>
+                        </div>
+                        <span class="badge badge-scam">Needs Review</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verified Safe/Legitimate Section -->
+            <div class="glass-card">
+                <h3 class="card-title" style="color: var(--success);">
+                    <i class="fa-solid fa-circle-check"></i> Verified Safe List (High Trust)
+                </h3>
+                <div class="company-list">
+                    <div class="company-item safe">
+                        <div class="item-info">
+                            <span class="item-name">CleverTap</span>
+                            <span class="item-sub">Verified customer engagement platform. Clean record.</span>
+                        </div>
+                        <span class="badge badge-safe">Safe</span>
+                    </div>
+                    <div class="company-item safe">
+                        <div class="item-info">
+                            <span class="item-name">Quantiphi</span>
+                            <span class="item-sub">Registered AI & data analytics developer. Verified team.</span>
+                        </div>
+                        <span class="badge badge-safe">Safe</span>
+                    </div>
+                    <div class="company-item safe">
+                        <div class="item-info">
+                            <span class="item-name">Turing</span>
+                            <span class="item-sub">Globally recognized engineering hiring platform.</span>
+                        </div>
+                        <span class="badge badge-safe">Safe</span>
+                    </div>
+                    <div class="company-item safe">
+                        <div class="item-info">
+                            <span class="item-name">Techolution</span>
+                            <span class="item-sub">Established consulting firm with real office spaces.</span>
+                        </div>
+                        <span class="badge badge-safe">Safe</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scam Awareness Info Section -->
+        <div class="glass-card" style="margin-top: 40px;">
+            <h3 class="card-title"><i class="fa-solid fa-lightbulb" style="color: var(--warning);"></i> Recognize Internship Scam Traps</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div style="background: rgba(15, 23, 42, 0.4); padding: 20px; border-radius: 12px; border-top: 3px solid var(--danger);">
+                    <h4 style="margin-bottom: 10px; color: var(--danger);"><i class="fa-solid fa-money-bill-transfer"></i> 1. Demands for Money</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">No legitimate company will ask for **Registration Fee**, **Training Charges**, or **Security Deposit** to offer an internship. If they ask for money, it's 100% a scam.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.4); padding: 20px; border-radius: 12px; border-top: 3px solid var(--warning);">
+                    <h4 style="margin-bottom: 10px; color: var(--warning);"><i class="fa-solid fa-file-signature"></i> 2. Fraud Certificates</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Some portals sell fake internship certificates for simple copy-paste work. Such certificates have zero value in any job interview.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.4); padding: 20px; border-radius: 12px; border-top: 3px solid var(--neon-blue);">
+                    <h4 style="margin-bottom: 10px; color: var(--neon-blue);"><i class="fa-solid fa-envelope"></i> 3. Gmail or WhatsApp Hiring</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">If HR contacts you from a free email account (like info.xyz@gmail.com) without a corporate domain, or strictly chats on WhatsApp, definitely do your research.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report a Scam Form -->
+        <div id="report-scam-form" class="glass-card" style="margin-top: 40px;">
+            <h3 class="card-title" style="color: var(--danger);">
+                <i class="fa-solid fa-circle-exclamation"></i> Report A Scam
+            </h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 25px;">
+                Has a company tried to scam you in the name of an internship? Submit your details below so other students can avoid them.
+            </p>
+            <form action="/report" method="POST" class="add-review-form" style="border:none; padding-top:0;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label class="form-label">Student Name (Leave empty for anonymous)</label>
+                        <input type="text" name="student_name" class="form-control" placeholder="E.g. John Doe (or Anonymous)"
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Target Company Name <span style="color: var(--danger);">*</span></label>
+                        <input type="text" name="company_name" class="form-control" placeholder="E.g. Maxgen Technologies" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">What scam did they try? <span style="color: var(--danger);">*</span></label>
+                    <select name="scam_type" class="form-control" required style="background: var(--bg-dark); color: white;">
+                        <option value="Money Demand">Asked for registration fees / training charges</option>
+                        <option value="Fake Certificate">Selling certificates or fake work portfolio</option>
+                        <option value="Unpaid Payout Failure">Completed work but refused to pay promised stipend</option>
+                        <option value="Identity Theft / Spam">Spam messaging and data harvesting</option>
+                        <option value="Other">Other Fraud (Explain below)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Detailed Complaint <span style="color: var(--danger);">*</span></label>
+                    <textarea name="complaint_details" rows="5" class="form-control" placeholder="E.g. They offered me web development internship. After selection, HR asked me to pay 1500 INR for certificate portal maintenance..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> File Scam Report</button>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Student ScamShield. Protecting Indian students from fake internship traps.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; color: var(--text-secondary);">
+                Built with dynamic search algorithms scraping trust vectors.
+            </p>
+        </footer>
+    </div>
+
+    <script src="../static/js/app.js"></script>
+</body>
+</html>

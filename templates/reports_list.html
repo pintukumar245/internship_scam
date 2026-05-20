@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filed Scam Reports - Student Shield</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-container">
+                <i class="fa-solid fa-shield-halved logo-icon"></i>
+                <div class="logo-text">Scam<span>Shield</span></div>
+            </div>
+            <nav class="nav-links">
+                <a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="/diabetes" class="nav-link"><i class="fa-solid fa-stethoscope"></i> Diabetes Tool</a>
+                <a href="/reports_list" class="nav-link"><i class="fa-solid fa-list-check"></i> Public Reports</a>
+            </nav>
+        </header>
+
+        <!-- Back Button -->
+        <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Scan Centre</a>
+
+        <!-- Main Content -->
+        <div class="glass-card">
+            <h2 class="card-title" style="color: var(--danger);">
+                <i class="fa-solid fa-circle-exclamation"></i> Crowdsourced Student Scam Reports
+            </h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 30px;">
+                Below are the complaints and fraud cases filed by students on our portal. If any company demands a security deposit or fees from you, report them immediately.
+            </p>
+
+            {% if reports %}
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    {% for report in reports %}
+                    <div class="glass-card" style="background: rgba(15, 23, 42, 0.5); padding: 20px; border-left: 4px solid var(--danger);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                            <div>
+                                <h3 style="font-size: 1.2rem; color: white; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa-solid fa-building"></i> {{ report.company_name }}
+                                </h3>
+                                <span class="badge badge-scam" style="margin-top: 5px; display: inline-block;">{{ report.scam_type }}</span>
+                            </div>
+                            <span style="font-size: 0.8rem; color: var(--text-secondary);">
+                                Filed by: <strong>{{ report.student_name }}</strong> on {{ report.date }}
+                            </span>
+                        </div>
+                        <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-primary); text-align: justify; margin-top: 10px;">
+                            {{ report.complaint_details }}
+                        </p>
+                        
+                        <!-- Quick Scan button for this company -->
+                        <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
+                            <form action="/analyze" method="POST" style="margin:0; display:inline;">
+                                <input type="hidden" name="company_name" value="{{ report.company_name }}">
+                                <button type="submit" class="btn-submit" style="padding: 6px 15px; font-size: 0.8rem; border-radius: 99px;">
+                                    <i class="fa-solid fa-bolt"></i> Run Safety Scan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div style="text-align: center; padding: 40px 0; color: var(--text-secondary);">
+                    <i class="fa-solid fa-folder-open" style="font-size: 3.5rem; margin-bottom: 15px; color: var(--border-card);"></i>
+                    <p>No scam reports filed yet. If you have been defrauded, please fill the form on the homepage.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Student ScamShield. Protecting Indian students from fake internship traps.</p>
+        </footer>
+    </div>
+</body>
+</html>
