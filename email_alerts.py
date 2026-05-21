@@ -40,9 +40,9 @@ class EmailAlertSystem:
         
         if self.sender_email and self.sender_password:
             self.smtp_configured = True
-            print("✓ SMTP configured successfully")
+            print("[OK] SMTP configured successfully")
         else:
-            print("⚠️ SMTP not configured. Email alerts disabled.")
+            print("[WARNING] SMTP not configured. Email alerts disabled.")
             print("   Add SENDER_EMAIL and SENDER_PASSWORD to .env file")
     
     def configure_flask_mail(self, app):
@@ -56,7 +56,7 @@ class EmailAlertSystem:
         if app.config['MAIL_USERNAME'] and app.config['MAIL_PASSWORD']:
             self.mail = Mail(app)
             self.smtp_configured = True
-            print("✓ Flask-Mail configured")
+            print("[OK] Flask-Mail configured")
     
     def subscribe(self, email, companies):
         """Subscribe user to email alerts for specific companies."""
@@ -79,11 +79,11 @@ class EmailAlertSystem:
                 json.dump(alerts_db, f, indent=2)
                 f.truncate()
             
-            print(f"✓ {email} subscribed to alerts for {len(companies)} companies")
+            print(f"[OK] {email} subscribed to alerts for {len(companies)} companies")
             return {'success': True, 'message': 'Subscription successful'}
         
         except Exception as e:
-            print(f"❌ Subscription error: {e}")
+            print(f"[ERROR] Subscription error: {e}")
             return {'success': False, 'message': str(e)}
     
     def unsubscribe(self, email):
@@ -99,19 +99,19 @@ class EmailAlertSystem:
                     json.dump(alerts_db, f, indent=2)
                     f.truncate()
                     
-                    print(f"✓ {email} unsubscribed")
+                    print(f"[OK] {email} unsubscribed")
                     return {'success': True, 'message': 'Unsubscribed successfully'}
                 
                 return {'success': False, 'message': 'Email not found in subscriptions'}
         
         except Exception as e:
-            print(f"❌ Unsubscribe error: {e}")
+            print(f"[ERROR] Unsubscribe error: {e}")
             return {'success': False, 'message': str(e)}
     
     def send_alert(self, email, company_name, old_score, new_score, details):
         """Send email alert about company risk change."""
         if not self.smtp_configured:
-            print("⚠️ SMTP not configured, skipping email")
+            print("[WARNING] SMTP not configured, skipping email")
             return False
         
         try:
@@ -200,7 +200,7 @@ class EmailAlertSystem:
             return True
         
         except Exception as e:
-            print(f"❌ Error sending alert: {e}")
+            print(f"[ERROR] Error sending alert: {e}")
             return False
     
     def _send_smtp(self, to_email, subject, html_body, text_body):
@@ -222,10 +222,10 @@ class EmailAlertSystem:
                 server.login(self.sender_email, self.sender_password)
                 server.sendmail(self.sender_email, to_email, msg.as_string())
             
-            print(f"✓ Alert sent to {to_email}")
+            print(f"[OK] Alert sent to {to_email}")
         
         except Exception as e:
-            print(f"❌ SMTP error: {e}")
+            print(f"[ERROR] SMTP error: {e}")
     
     def _log_alert(self, email, company_name, old_score, new_score):
         """Log alert in history."""
@@ -246,7 +246,7 @@ class EmailAlertSystem:
                 f.truncate()
         
         except Exception as e:
-            print(f"⚠️ Failed to log alert: {e}")
+            print(f"[WARNING] Failed to log alert: {e}")
     
     def get_subscriptions(self, email):
         """Get user's email alert subscriptions."""
@@ -272,11 +272,11 @@ class EmailAlertSystem:
                     if self.send_alert(email, company_name, old_score, new_score, details):
                         alerts_sent += 1
             
-            print(f"✓ Batch alerts sent: {alerts_sent} users notified")
+            print(f"[OK] Batch alerts sent: {alerts_sent} users notified")
             return alerts_sent
         
         except Exception as e:
-            print(f"❌ Batch alert error: {e}")
+            print(f"[ERROR] Batch alert error: {e}")
             return 0
 
 

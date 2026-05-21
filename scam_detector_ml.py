@@ -34,12 +34,12 @@ class ScamDetectorML:
             try:
                 self.model = joblib.load(MODEL_PATH)
                 self.scaler = joblib.load(SCALER_PATH)
-                print("✓ ML Model loaded successfully")
+                print("[OK] ML Model loaded successfully")
             except Exception as e:
-                print(f"⚠️ Failed to load model: {e}. Creating new model...")
+                print(f"[WARNING] Failed to load model: {e}. Creating new model...")
                 self.create_default_model()
         else:
-            print("📊 No pre-trained model found. Creating default model...")
+            print("[INFO] No pre-trained model found. Creating default model...")
             self.create_default_model()
     
     def create_default_model(self):
@@ -130,23 +130,23 @@ class ScamDetectorML:
             )
             self.model.fit(X_scaled, y)
             
-            print(f"✓ ML Model trained on {len(X)} samples")
+            print(f"[OK] ML Model trained on {len(X)} samples")
             
             # Evaluate
             score = self.model.score(X_scaled, y)
-            print(f"✓ Model accuracy: {score:.2%}")
+            print(f"[OK] Model accuracy: {score:.2%}")
             
         except Exception as e:
-            print(f"❌ Model training failed: {e}")
+            print(f"[ERROR] Model training failed: {e}")
     
     def save_model(self):
         """Save trained model to disk."""
         try:
             joblib.dump(self.model, MODEL_PATH)
             joblib.dump(self.scaler, SCALER_PATH)
-            print(f"✓ Model saved to {MODEL_PATH}")
+            print(f"[OK] Model saved to {MODEL_PATH}")
         except Exception as e:
-            print(f"❌ Failed to save model: {e}")
+            print(f"[ERROR] Failed to save model: {e}")
     
     def extract_features(self, company_data):
         """Extract features from company data for ML prediction."""
@@ -200,7 +200,7 @@ class ScamDetectorML:
     def predict_scam_probability(self, company_data):
         """Predict scam probability using ML model."""
         if self.model is None or self.scaler is None:
-            print("⚠️ Model not loaded, returning baseline score")
+            print("[WARNING] Model not loaded, returning baseline score")
             return None
         
         try:
@@ -220,7 +220,7 @@ class ScamDetectorML:
                 'model_used': 'GradientBoosting'
             }
         except Exception as e:
-            print(f"❌ Prediction error: {e}")
+            print(f"[ERROR] Prediction error: {e}")
             return None
     
     def update_with_feedback(self, company_data, is_scam_confirmed):
@@ -246,18 +246,18 @@ class ScamDetectorML:
             with open(TRAINING_DATA_PATH, 'w') as f:
                 json.dump(training_data, f, indent=2)
             
-            print(f"✓ Model updated with feedback for {company_data.get('name')}")
+            print(f"[OK] Model updated with feedback for {company_data.get('name')}")
             
             # Periodically retrain (after every 10 feedbacks)
             if len(training_data) % 10 == 0:
-                print("📊 Retraining model with accumulated feedback...")
+                print("[INFO] Retraining model with accumulated feedback...")
                 X = np.array([d['features'] for d in training_data])
                 y = np.array([d['label'] for d in training_data])
                 self.train_model(X, y)
                 self.save_model()
         
         except Exception as e:
-            print(f"❌ Feedback update error: {e}")
+            print(f"[ERROR] Feedback update error: {e}")
 
 
 # Global instance

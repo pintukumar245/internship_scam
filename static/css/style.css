@@ -906,3 +906,60 @@ footer a:hover {
         align-self: flex-start;
     }
 }
+
+/* Custom Overrides for Logo & Bootstrap Integration */
+.logo-img {
+    height: 45px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.03);
+}
+
+.search-input-bootstrap {
+    width: 100%;
+    background: rgba(15, 23, 42, 0.8) !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 15px 20px 15px 50px !important;
+    font-size: 1.1rem;
+    color: white !important;
+    border-radius: 50px !important;
+    outline: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.search-input-bootstrap:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 25px var(--primary-glow) !important;
+    background: rgba(15, 23, 42, 0.95) !important;
+}
+
+.search-btn-bootstrap {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--neon-blue)) !important;
+    color: white !important;
+    border: none !important;
+    padding: 15px 30px !important;
+    border-radius: 50px !important;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+
+.search-btn-bootstrap:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.5) !important;
+}
+
+/* Fix style conflicts with Bootstrap for logo alignment */
+header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
