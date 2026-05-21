@@ -21,3 +21,4 @@ pandas==2.0.0
 
 # For Production Server (Render)
 gunicorn==20.1.0
+setuptools
