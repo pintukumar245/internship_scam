@@ -815,3 +815,94 @@ footer a:hover {
 .back-link:hover {
     color: var(--text-primary);
 }
+
+.responsive-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 0;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .search-input {
+        padding: 15px 100px 15px 45px;
+        font-size: 1rem;
+    }
+    
+    .search-btn {
+        padding: 0 15px;
+        font-size: 0.85rem;
+    }
+    
+    .glass-card {
+        padding: 20px;
+    }
+    
+    .responsive-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-section {
+        margin: 30px auto 20px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .nav-link, .btn-report {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+    
+    .search-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .search-input {
+        padding: 15px 15px 15px 45px;
+    }
+    
+    .search-btn {
+        position: static;
+        width: 100%;
+        padding: 15px;
+        margin-top: 10px;
+    }
+    
+    .company-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .badge {
+        align-self: flex-start;
+    }
+}

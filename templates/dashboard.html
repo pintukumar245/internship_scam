@@ -247,7 +247,7 @@
                         <h4 style="margin-bottom: 15px;"><i class="fa-solid fa-pen-to-square"></i> Leave an Experience Review</h4>
                         <form action="/add_review" method="POST">
                             <input type="hidden" name="company_name" value="{{ company.name }}">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="responsive-grid">
                                 <div class="form-group">
                                     <label class="form-label">Your Name (Leave blank for Anonymous)</label>
                                     <input type="text" name="author" class="form-control" placeholder="E.g. Shivam (or Anonymous)">

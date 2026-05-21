@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Diabetes Prediction</title>
         <style>
             body {
@@ -32,6 +33,14 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 10px;
+            }
+            @media (max-width: 480px) {
+                form {
+                    grid-template-columns: 1fr;
+                }
+                .full-width {
+                    grid-column: span 1;
+                }
             }
             .full-width {
                 grid-column: span 2;
